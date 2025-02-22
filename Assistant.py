@@ -9,6 +9,7 @@ import webbrowser
 import time
 import logging
 import os
+import ollama
 
 # Initialize speech engine
 engine = pyttsx3.init()
@@ -17,6 +18,10 @@ engine = pyttsx3.init()
 def speak(text):
     engine.say(text)
     engine.runAndWait()
+    
+def ask_ollama(prompt):
+    response = ollama.chat(model="llama3.2", messages=[{"role": "user", "content": prompt}])
+    return response['message']['content']
 
 def open_application(app_name):
     apps = {
@@ -87,7 +92,7 @@ def handle_command(command, chat_frame):
         response = "Hello! How can I assist you today?"
 
     else:
-        response = "Sorry, I didn't understand that."
+        response = ask_ollama(command)
 
     # Display and speak the response
     add_message(chat_frame, response, "left")
