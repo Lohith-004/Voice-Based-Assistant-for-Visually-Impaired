@@ -9,3 +9,4 @@ os
 threading
 time
 logging
+ollama - llama3.2
